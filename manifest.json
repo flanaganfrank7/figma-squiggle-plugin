@@ -1,0 +1,7 @@
+{
+  "name": "squiggle-gen",
+  "id": "753395020416512502",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html"
+}
