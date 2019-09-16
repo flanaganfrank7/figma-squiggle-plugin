@@ -16,9 +16,9 @@ figma.ui.onmessage = msg => {
         console.log(msg.red);
         console.log(msg.blue);
         console.log(msg.green);
-        const redInput = ((msg.red/255), .1);
-        const greenInput = ((msg.green/255), .1);
-        const blueInput = ((msg.blue/255), .1);
+        const redInput = (msg.red/255);
+        const greenInput = (msg.green/255);
+        const blueInput = (msg.blue/255);
         for (let i = 0; i < msg.count; i++) {
             const vector = figma.createVector();
             const multiplier = 100;

@@ -1,10 +1,13 @@
 <h2 style="color:black; font-family: sans-serif">Squiggle Generator</h2>
 <p style="color:black; font-family: sans-serif">Count: <input id="count" value="5"></p>
-<p style="color:black; font-family: sans-serif">Color:  
-  <input id="r" placeholder="R:255" style="width:40px">
-  <input id="g" placeholder="G:255" style="width:40px">
-  <input id="b" placeholder="B:255"style="width:40px">
-</p>
+<form>
+  <label style="font-size:12px; font-family: sans-serif">Red</label>
+  <input id="r" placeholder="255" value="0" style="width:40px;">
+  <label style="font-size:12px; font-family: sans-serif">Green</label>
+  <input id="g" placeholder="255" value="0" style="width:40px;">
+  <label style="font-size:12px; font-family: sans-serif">Blue</label>
+  <input id="b" placeholder="255" value="0" style="width:40px;">
+</form>
 <button id="create" style="color:black; font-family: sans-serif">Create</button>
 <button id="cancel" style="color:black; font-family: sans-serif">Cancel</button>
 <script>
