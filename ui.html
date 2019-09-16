@@ -1,4 +1,10 @@
-<h2 style="color:black; font-family: sans-serif">Squiggle Generator</h2>
+<h2 style="color:black; font-family: sans-serif">Shape Generator</h2>
+<form>
+    <label>Squiggle</label>
+    <input type="checkbox" id="squiggleSelected"></input>
+    <label>Shape</label>
+    <input type="checkbox" id="shapeSelected"></input>
+  </form>
 <p style="color:black; font-family: sans-serif">Count: <input id="count" value="5"></p>
 <form>
   <label style="font-size:12px; font-family: sans-serif">Red</label>
@@ -12,6 +18,7 @@
 <button id="cancel" style="color:black; font-family: sans-serif">Cancel</button>
 <script>
 
+
 document.getElementById('create').onclick = () => {
   const textbox = document.getElementById('count');
   const redInput = document.getElementById('r');
@@ -21,7 +28,20 @@ document.getElementById('create').onclick = () => {
   const red = parseInt(redInput.value, 10);
   const green = parseInt(greenInput.value, 10);
   const blue  = parseInt(blueInput.value, 10);
-  parent.postMessage({ pluginMessage: { type: 'create-squiggles', count, red, green, blue } }, '*')
+  var squigIsChecked= document.getElementById('squiggleSelected').checked;
+  var shapeIsChecked= document.getElementById('shapeSelected').checked;
+  if(squigIsChecked){ 
+    parent.postMessage({ pluginMessage: { type: 'create-squiggles', count, red, green, blue } }, '*')
+  }
+  if(squigIsChecked && shapeIsChecked){ 
+    console.log('both are checked')
+  }
+  if(shapeIsChecked){
+    console.log('just shape is checked')
+  }
+  else{
+    console.log('none are checked')
+  }
 }
 
 document.getElementById('cancel').onclick = () => {
