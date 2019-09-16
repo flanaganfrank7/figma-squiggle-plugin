@@ -1,9 +1,9 @@
 <h2 style="color:black; font-family: sans-serif">Squiggle Generator</h2>
 <p style="color:black; font-family: sans-serif">Count: <input id="count" value="5"></p>
 <p style="color:black; font-family: sans-serif">Color:  
-  <input id="r" placeholder="R" style="width:40px">
-  <input id="g" placeholder="G" style="width:40px">
-  <input id="b" placeholder="B"style="width:40px">
+  <input id="r" placeholder="R:255" style="width:40px">
+  <input id="g" placeholder="G:255" style="width:40px">
+  <input id="b" placeholder="B:255"style="width:40px">
 </p>
 <button id="create" style="color:black; font-family: sans-serif">Create</button>
 <button id="cancel" style="color:black; font-family: sans-serif">Cancel</button>
@@ -11,14 +11,14 @@
 
 document.getElementById('create').onclick = () => {
   const textbox = document.getElementById('count');
-  const redValue = document.getElementById('r');
-  const greenValue = document.getElementById('g');
-  const blueValue = document.getElementById('b');
+  const redInput = document.getElementById('r');
+  const greenInput = document.getElementById('g');
+  const blueInput = document.getElementById('b');
   const count = parseInt(textbox.value, 10);
-  const red = parseInt(redValue.value, 0);
-  const green = parseInt(greenValue.value, 0);
-  const blue  = parseInt(blueValue.value, 0);
-  parent.postMessage({ pluginMessage: { type: 'create-rectangles', count } }, '*')
+  const red = parseInt(redInput.value, 10);
+  const green = parseInt(greenInput.value, 10);
+  const blue  = parseInt(blueInput.value, 10);
+  parent.postMessage({ pluginMessage: { type: 'create-squiggles', count, red, green, blue } }, '*')
 }
 
 document.getElementById('cancel').onclick = () => {

@@ -9,46 +9,48 @@ figma.showUI(__html__);
 // callback. The callback will be passed the "pluginMessage" property of the
 // posted message.
 figma.ui.onmessage = msg => {
-  // One way of distinguishing between different types of messages sent from
-  // your HTML page is to use an object with a "type" property like this.
-  if (msg.type === "create-rectangles") {
-    const nodes = [];
-    const r = (msg.red/255)
-    console.log(msg.red)
-    for (let i = 0; i < msg.count; i++) {
-      const vector = figma.createVector();
-      const multiplier = 100;
-      const random1 = Math.random() * multiplier;
-      const random2 = Math.random() * multiplier;
-      const random4 = Math.random() * multiplier;
-      vector.y = i * 300;
-      vector.opacity = Math.random();
-      vector.strokes = [
-        { type: "SOLID", color: { r: 1, g: 0.196, b: 0.635 } }
-      ];
-      vector.strokeWeight = Math.random() * 10;
-      figma.currentPage.appendChild(vector);
-      vector.vectorPaths = [
-        {
-          windingRule: "EVENODD",
-          // data: "M 0 100 L 100 100 L 50 0 Z"
-          data:
-            "M 3 " +
-            random1 +
-            " C 16.3333 93 62 3 138 3 C 233 3 " +
-            random2 +
-            " 97.5 434 " +
-            random4 +
-            ""
+    // One way of distinguishing between different types of messages sent from
+    // your HTML page is to use an object with a "type" property like this.
+    if (msg.type === "create-squiggles") {
+        const nodes = [];
+        console.log(msg.red);
+        console.log(msg.blue);
+        console.log(msg.green);
+        const redInput = ((msg.red/255), .1);
+        const greenInput = ((msg.green/255), .1);
+        const blueInput = ((msg.blue/255), .1);
+        for (let i = 0; i < msg.count; i++) {
+            const vector = figma.createVector();
+            const multiplier = 100;
+            const random1 = Math.random() * multiplier;
+            const random2 = Math.random() * multiplier;
+            const random4 = Math.random() * multiplier;
+            vector.y = i * 300;
+            vector.opacity = Math.random();
+            vector.strokes = [
+                { type: "SOLID", color: { r: redInput, g: greenInput, b: blueInput } }
+            ];
+            vector.strokeWeight = Math.random() * 10;
+            figma.currentPage.appendChild(vector);
+            vector.vectorPaths = [
+                {
+                    windingRule: "EVENODD",
+                    // data: "M 0 100 L 100 100 L 50 0 Z"
+                    data: "M 3 " +
+                        random1 +
+                        " C 16.3333 93 62 3 138 3 C 233 3 " +
+                        random2 +
+                        " 97.5 434 " +
+                        random4 +
+                        ""
+                }
+            ];
+            nodes.push(vector);
         }
-      ];
-      nodes.push(vector);
+        figma.currentPage.selection = nodes;
+        figma.viewport.scrollAndZoomIntoView(nodes);
     }
-
-    figma.currentPage.selection = nodes;
-    figma.viewport.scrollAndZoomIntoView(nodes);
-  }
-  // Make sure to close the plugin when you're done. Otherwise the plugin will
-  // keep running, which shows the cancel button at the bottom of the screen.
-  figma.closePlugin();
+    // Make sure to close the plugin when you're done. Otherwise the plugin will
+    // keep running, which shows the cancel button at the bottom of the screen.
+    figma.closePlugin();
 };
