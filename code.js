@@ -1,53 +1,42 @@
-// This plugin will open a modal to prompt the user to enter a number, and
-// it will then create that many rectangles on the screen.
-// This file holds the main code for the plugins. It has access to the *document*.
-// You can access browser APIs in the <script> tag inside "ui.html" which has a
-// full browser enviroment (see documentation).
 // This shows the HTML page in "ui.html".
 figma.showUI(__html__);
-// Calls to "parent.postMessage" from within the HTML page will trigger this
-// callback. The callback will be passed the "pluginMessage" property of the
-// posted message.
+
+// Receving the message from the click event to create squiggles. 
 figma.ui.onmessage = msg => {
-    // One way of distinguishing between different types of messages sent from
-    // your HTML page is to use an object with a "type" property like this.
     if (msg.type === "create-squiggles") {
         const nodes = [];
-        console.log(msg.red);
-        console.log(msg.blue);
-        console.log(msg.green);
+        // Color input variables need to divided by 255 and redefined for use below
         const redInput = (msg.red/255);
         const greenInput = (msg.green/255);
         const blueInput = (msg.blue/255);
+        // Create a squiggle X number of times, where X = msg.count
         for (let i = 0; i < msg.count; i++) {
             const vector = figma.createVector();
-            const multiplier = 100;
-            const random1 = Math.random() * multiplier;
-            const random2 = Math.random() * multiplier;
-            const random4 = Math.random() * multiplier;
+            // The below equation ensure that squiggles arent placed directly on top of one another
             vector.y = i * 300;
+            // Assign stroke opacity a random value 
             vector.opacity = Math.random();
             vector.strokes = [
+                // Use variables from above to get the stroke color
                 { type: "SOLID", color: { r: redInput, g: greenInput, b: blueInput } }
             ];
+            // Assign variable stroke weight between 0 - 10
             vector.strokeWeight = Math.random() * 10;
             figma.currentPage.appendChild(vector);
             vector.vectorPaths = [
                 {
                     windingRule: "EVENODD",
-                    // data: "M 0 100 L 100 100 L 50 0 Z"
-                    data: "M 3 " +
-                        random1 +
-                        " C 16.3333 93 62 3 138 3 C 233 3 " +
-                        random2 +
-                        " 97.5 434 " +
-                        random4 +
-                        ""
+                    // Create bunch of points, and bezier handle points in between marks and curves. 
+                    data: "M " + (Math.random()*multiplier) + " " +
+                        (Math.random()*multiplier) +
+                        " C " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " C " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " +
+                        (Math.random()*multiplier) + " " +(Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + ""
                 }
             ];
             nodes.push(vector);
         }
         figma.currentPage.selection = nodes;
+        // Refit Figma zoom level to show created squiggles regardless of size or quantity
         figma.viewport.scrollAndZoomIntoView(nodes);
     }
     // Make sure to close the plugin when you're done. Otherwise the plugin will
