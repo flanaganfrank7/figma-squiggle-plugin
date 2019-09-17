@@ -27,6 +27,8 @@ figma.ui.onmessage = msg => {
                 {
                     windingRule: "EVENODD",
                     // Create bunch of points, and bezier handle points in between marks and curves. 
+                    // Very much need to refactor this - thinking (Math.random()*multiplier) can be a variable that I loop over. 
+                    // Will improve readability & remove some code. 
                     data: "M " + (Math.random()*multiplier) + " " +
                         (Math.random()*multiplier) +
                         " C " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " C " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " +
@@ -39,7 +41,6 @@ figma.ui.onmessage = msg => {
         // Refit Figma zoom level to show created squiggles regardless of size or quantity
         figma.viewport.scrollAndZoomIntoView(nodes);
     }
-    // Make sure to close the plugin when you're done. Otherwise the plugin will
-    // keep running, which shows the cancel button at the bottom of the screen.
+    // Close the modal after Create or Cancel 
     figma.closePlugin();
 };

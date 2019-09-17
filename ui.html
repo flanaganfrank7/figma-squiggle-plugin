@@ -1,3 +1,4 @@
+<!-- HTML for the Plugin Modal  -->
 <h3 style="color:black; font-family: sans-serif">Squiggle Generator</h3>
 <p style="color:black; font-family: sans-serif; font-size:12px; width: 100%; display: block">Count: <input style="display: block; width: 100%;" id="count" value="5"></p>
 <form>
@@ -14,21 +15,25 @@
 <button id="cancel" style="color:black; font-family: sans-serif">Cancel</button>
 <script>
 
-
+// Click event for "Create"
 document.getElementById('create').onclick = () => {
   const textbox = document.getElementById('count');
   const multi = document.getElementById('multiplier');
   const redInput = document.getElementById('r');
   const greenInput = document.getElementById('g');
   const blueInput = document.getElementById('b');
+  // Above we select all of the variables, below we parse them
   const count = parseInt(textbox.value, 10);
   const mult = parseInt(multi.value, 500);
   const red = parseInt(redInput.value, 10);
   const green = parseInt(greenInput.value, 10);
   const blue  = parseInt(blueInput.value, 10);
+  // Send message to code.js that we want to create squiggles
+  // Send variables across to code js for count, color, and multiplier
   parent.postMessage({ pluginMessage: { type: 'create-squiggles', count, mult, red, green, blue} }, '*')
 }
 
+// Click event for cancel
 document.getElementById('cancel').onclick = () => {
   parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
 }
