@@ -1,36 +1,107 @@
 <!-- HTML for the Plugin Modal  -->
-<h3 style="color:black; font-family: sans-serif">Squiggle Generator</h3>
-<p style="color:black; font-family: sans-serif; font-size:12px; width: 100%; display: block">Count: <input style="display: block; width: 100%;" id="count" value="5"></p>
-<form>
-  <label style="font-size:12px; font-family: sans-serif;display: block; margin-bottom: 6px;">Multiplier</label>
-  <input id="multiplier" value="500" style="width:100%;display: block;margin-bottom: 16px;">
-  <label style="font-size:12px; font-family: sans-serif; display: inline-block;margin-left:0px;">R</label>
-  <input id="r" placeholder="255" value="0" style="width:26%;display: inline-block">
-  <label style="font-size:12px; font-family: sans-serif; display: inline-block;margin-left:8px;">G</label>
-  <input id="g" placeholder="255" value="0" style="width:26%;display: inline-block">
-  <label style="font-size:12px; font-family: sans-serif;display: inline-block;margin-left:8px;">B</label>
-  <input id="b" placeholder="255" value="0" style="width:26%;display: inline-block">
-</form>
-<button id="create" style="color:black; font-family: sans-serif">Create</button>
-<button id="cancel" style="color:black; font-family: sans-serif">Cancel</button>
+<style>
+
+
+  body{
+    width:80%;
+  }
+
+  h3{
+    text-align: center;
+  }
+
+  .main{
+    margin:0 auto;
+    width: 100%;
+  }
+
+  #generate{
+    background-color: rgba(247, 0, 152,1);
+    color:white !important;
+    font-weight: bold;
+    border: none;
+    border-radius:3px;
+    
+  }
+
+  label{
+    font-family: sans-serif;
+    padding-top: 12px;
+    font-size: 12px;
+    
+  }
+
+  .variables{
+    box-shadow:rgba(247, 0, 152,.5) 0px 0px 0px 1px;
+    margin: 0;
+    border-radius: 5px;
+    border: none;
+    display: block;
+    width: 90%;
+    height:32px;
+  }
+
+  .variables:focus{
+  border:none;
+  outline:none;  
+  box-shadow:rgba(247, 0, 152,.5) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px   0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(247, 0, 152,.2) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;   
+ 
+  }
+
+
+  #generate:hover{
+    padding: 8px 16px;
+    background-color: rgba(247, 0, 152,.5);
+  }
+
+  #cancel{
+    margin-left: 12px;
+    background-color: #fff;
+    border: none;
+  }
+
+  #cancel:hover{
+    border-bottom: 1px solid rgba(247, 0, 152,1);
+  }
+
+</style>
+<div class="main">
+  <!-- <div class="icon">
+    <svg viewBox="0 0 2000 1700" className="icon" fill="none">
+    <path
+      d="M710 173.5c-204.5-255.5-556.3-77-507 213C237 586.5 676.639 642 748.51 868c186.994 588-575.505 784-694.997 307C7.005 800 553.886 608.3 799.5 1545.5"
+      stroke="red"
+      stroke-width=100
+      stroke-linecap="round"
+    />
+  </svg>
+  </div> -->
+  <h3 style="color:black; font-family: sans-serif">Squiggle Generator</h3>
+  <br>
+    <form>
+      <label>Count:</label>
+      <input class="variables"id="count" value="5">
+      <br>
+      <label>Complexity: </label>
+      <input class="variables" id="complexity" value="5">
+    </form>
+  <button id="generate" style="color:black; font-family: sans-serif">Generate</button>
+  <button id="cancel" style="color:black; font-family: sans-serif">Cancel</button>
+</div>
 <script>
 
 // Click event for "Create"
-document.getElementById('create').onclick = () => {
+document.getElementById('generate').onclick = () => {
   const textbox = document.getElementById('count');
-  const multi = document.getElementById('multiplier');
-  const redInput = document.getElementById('r');
-  const greenInput = document.getElementById('g');
-  const blueInput = document.getElementById('b');
+  const compli = document.getElementById('complexity');
+ 
   // Above we select all of the variables, below we parse them
   const count = parseInt(textbox.value, 10);
-  const mult = parseInt(multi.value, 500);
-  const red = parseInt(redInput.value, 10);
-  const green = parseInt(greenInput.value, 10);
-  const blue  = parseInt(blueInput.value, 10);
+  const comp = parseInt(compli.value);
+  
   // Send message to code.js that we want to create squiggles
   // Send variables across to code js for count, color, and multiplier
-  parent.postMessage({ pluginMessage: { type: 'create-squiggles', count, mult, red, green, blue} }, '*')
+  parent.postMessage({ pluginMessage: { type: 'create-squiggles', count, comp} }, '*')
 }
 
 // Click event for cancel

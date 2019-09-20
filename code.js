@@ -1,46 +1,66 @@
+// This plugin will open a modal to prompt the user to enter a number, and
+// it will then create that many rectangles on the screen.
+// This file holds the main code for the plugins. It has access to the *document*.
+// You can access browser APIs in the <script> tag inside "ui.html" which has a
+// full browser enviroment (see documentation).
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__);
-
-// Receving the message from the click event to create squiggles. 
+figma.showUI(__html__, { width: 250, height: 500 });
+// Calls to "parent.postMessage" from within the HTML page will trigger this
+// callback. The callback will be passed the "pluginMessage" property of the
+// posted message.
 figma.ui.onmessage = msg => {
+    // One way of distinguishing between different types of messages sent from
+    // your HTML page is to use an object with a "type" property like this.
     if (msg.type === "create-squiggles") {
         const nodes = [];
-        // Color input variables need to divided by 255 and redefined for use below
-        const redInput = (msg.red/255);
-        const greenInput = (msg.green/255);
-        const blueInput = (msg.blue/255);
-        // Create a squiggle X number of times, where X = msg.count
+        console.log(msg.red);
         for (let i = 0; i < msg.count; i++) {
+            // ---------------------
+            // BEGIN SVG BUILDER
+            // ---------------------
+            let array = [];
+            let multValue = 1000;
+            let complexity = msg.comp;
+            // This builds the initial marker down coordinates
+            array.push("M");
+            for (let m = 0; m < 2; m++) {
+                let rando = Math.random() * multValue;
+                array.push(rando);
+            }
+            // This builds a set of curve coordinates
+            for (let x = 0; x < complexity; x++) {
+                array.push("C");
+                for (let c = 0; c < 6; c++) {
+                    let rando = Math.random() * multValue;
+                    array.push(rando);
+                }
+            }
+            let joinArray = array.join(" ");
+            let stringArray = joinArray.toString();
+            console.log(stringArray);
+            // ---------------------
+            // END SVG BUILDER
+            // ---------------------
             const vector = figma.createVector();
-            // The below equation ensure that squiggles arent placed directly on top of one another
+            const multiplier = 100;
             vector.y = i * 300;
-            // Assign stroke opacity a random value 
             vector.opacity = Math.random();
-            vector.strokes = [
-                // Use variables from above to get the stroke color
-                { type: "SOLID", color: { r: redInput, g: greenInput, b: blueInput } }
-            ];
-            // Assign variable stroke weight between 0 - 10
+            vector.strokes = [{ type: "SOLID", color: { r: 1, g: 0.196, b: 0.635 } }];
             vector.strokeWeight = Math.random() * 10;
             figma.currentPage.appendChild(vector);
             vector.vectorPaths = [
                 {
                     windingRule: "EVENODD",
-                    // Create bunch of points, and bezier handle points in between marks and curves. 
-                    // Very much need to refactor this - thinking (Math.random()*multiplier) can be a variable that I loop over. 
-                    // Will improve readability & remove some code. 
-                    data: "M " + (Math.random()*multiplier) + " " +
-                        (Math.random()*multiplier) +
-                        " C " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " C " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " +
-                        (Math.random()*multiplier) + " " +(Math.random()*multiplier) + " " + (Math.random()*multiplier) + " " + (Math.random()*multiplier) + ""
+                    // data: "M 0 100 L 100 100 L 50 0 Z"
+                    data: "" + joinArray + ""
                 }
             ];
             nodes.push(vector);
         }
         figma.currentPage.selection = nodes;
-        // Refit Figma zoom level to show created squiggles regardless of size or quantity
         figma.viewport.scrollAndZoomIntoView(nodes);
     }
-    // Close the modal after Create or Cancel 
+    // Make sure to close the plugin when you're done. Otherwise the plugin will
+    // keep running, which shows the cancel button at the bottom of the screen.
     figma.closePlugin();
 };
