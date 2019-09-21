@@ -4,7 +4,8 @@
 // You can access browser APIs in the <script> tag inside "ui.html" which has a
 // full browser enviroment (see documentation).
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__, { width: 250, height: 500 });
+figma.showUI(__html__);
+figma.ui.resize(300, 300)
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
 // posted message.
@@ -42,7 +43,6 @@ figma.ui.onmessage = msg => {
             // END SVG BUILDER
             // ---------------------
             const vector = figma.createVector();
-            const multiplier = 100;
             vector.y = i * 300;
             vector.opacity = Math.random();
             vector.strokes = [{ type: "SOLID", color: { r: 1, g: 0.196, b: 0.635 } }];

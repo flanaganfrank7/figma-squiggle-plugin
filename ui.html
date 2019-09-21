@@ -1,69 +1,76 @@
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+</head>
+
 <!-- HTML for the Plugin Modal  -->
 <style>
-
-
-  body{
-    width:80%;
+  body {
+    font-family: 'Open Sans', sans-serif;
   }
 
-  h3{
+  .main {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  h3 {
     text-align: center;
   }
 
-  .main{
-    margin:0 auto;
-    width: 100%;
-  }
-
-  #generate{
-    background-color: rgba(247, 0, 152,1);
-    color:white !important;
-    font-weight: bold;
-    border: none;
-    border-radius:3px;
-    
-  }
-
-  label{
+  label {
     font-family: sans-serif;
-    padding-top: 12px;
-    font-size: 12px;
-    
+    letter-spacing: .5px;
+    display: block;
+    margin: 12px 0px;
+    font-weight: bold;
+    font-size: 10px;
+
   }
 
-  .variables{
-    box-shadow:rgba(247, 0, 152,.5) 0px 0px 0px 1px;
+  .variables {
+    background-color: #8c9dad;
+    border-radius: 3px;
+    width: 100%;
     margin: 0;
-    border-radius: 5px;
+    padding: 8px 16px;
     border: none;
     display: block;
-    width: 90%;
-    height:32px;
+    height: 32px;
   }
 
-  .variables:focus{
-  border:none;
-  outline:none;  
-  box-shadow:rgba(247, 0, 152,.5) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px   0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(247, 0, 152,.2) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;   
- 
+  .variables:focus {
+    border: none;
+    outline: none;
+    box-shadow: rgba(247, 0, 152, .5) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(247, 0, 152, .2) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+  }
+
+  input:invalid {
+    box-shadow: red 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 0, 0, .2) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
   }
 
 
-  #generate:hover{
+  #generate {
     padding: 8px 16px;
-    background-color: rgba(247, 0, 152,.5);
+    margin-top: 24px;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
   }
 
-  #cancel{
+  #generate:hover {
+    padding: 8px 16px;
+    background-color: rgba(247, 0, 152, .5);
+  }
+
+  #cancel {
     margin-left: 12px;
     background-color: #fff;
     border: none;
   }
 
-  #cancel:hover{
-    border-bottom: 1px solid rgba(247, 0, 152,1);
+  #cancel:hover {
+    border-bottom: 1px solid rgba(247, 0, 152, 1);
   }
-
 </style>
 <div class="main">
   <!-- <div class="icon">
@@ -78,35 +85,52 @@
   </div> -->
   <h3 style="color:black; font-family: sans-serif">Squiggle Generator</h3>
   <br>
-    <form>
-      <label>Count:</label>
-      <input class="variables"id="count" value="5">
-      <br>
-      <label>Complexity: </label>
-      <input class="variables" id="complexity" value="5">
-    </form>
+  <form>
+    <label>COUNT:</label>
+    <input type="number" class="variables" id="count" value="5" min="1" max="1000" placeholder="Required: 1-1000"
+      required>
+    <br>
+    <label>COMPLEXITY: </label>
+    <input type="number" class="variables" id="complexity" value="5" min="1" max="1000" placeholder="Required: 1-1000"
+      required>
+  </form>
   <button id="generate" style="color:black; font-family: sans-serif">Generate</button>
   <button id="cancel" style="color:black; font-family: sans-serif">Cancel</button>
 </div>
+
+
+
 <script>
 
-// Click event for "Create"
-document.getElementById('generate').onclick = () => {
-  const textbox = document.getElementById('count');
-  const compli = document.getElementById('complexity');
- 
-  // Above we select all of the variables, below we parse them
-  const count = parseInt(textbox.value, 10);
-  const comp = parseInt(compli.value);
-  
-  // Send message to code.js that we want to create squiggles
-  // Send variables across to code js for count, color, and multiplier
-  parent.postMessage({ pluginMessage: { type: 'create-squiggles', count, comp} }, '*')
-}
+  // Click event for "Create"
+  document.getElementById('generate').onclick = () => {
+    const textbox = document.getElementById('count');
+    const compli = document.getElementById('complexity');
 
-// Click event for cancel
-document.getElementById('cancel').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-}
+    // Above we select all of the variables, below we parse them
+    const count = parseInt(textbox.value, 10);
+    const comp = parseInt(compli.value);
+
+    // Send message to code.js that we want to create squiggles
+    // Send variables across to code js for count, color, and multiplier
+    if (count > 0 && count <= 1000) {
+      alert('count is sufficient')
+      if (comp > 0 && comp <= 1000) {
+        alert('comp is sufficient as well')
+        parent.postMessage({ pluginMessage: { type: 'create-squiggles', count, comp } }, '*')
+      }
+      else {
+        alert('Complexity must be a number between 1 and 1000.')
+      }
+    }
+    else {
+      alert('Count must be a number between 1 and 1000.')
+    }
+  }
+
+  // Click event for cancel
+  document.getElementById('cancel').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+  }
 
 </script>
