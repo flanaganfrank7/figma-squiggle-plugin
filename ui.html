@@ -15,20 +15,20 @@
 
   h3 {
     text-align: center;
+    font-family: 'Open Sans', sans-serif;
   }
 
   label {
-    font-family: sans-serif;
+    font-family: 'Open Sans', sans-serif;
     letter-spacing: .5px;
     display: block;
     margin: 12px 0px;
-    font-weight: bold;
     font-size: 10px;
 
   }
 
   .variables {
-    background-color: #8c9dad;
+    background-color: #E3E3E8;
     border-radius: 3px;
     width: 100%;
     margin: 0;
@@ -41,7 +41,7 @@
   .variables:focus {
     border: none;
     outline: none;
-    box-shadow: rgba(247, 0, 152, .5) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(247, 0, 152, .2) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+    box-shadow: rgba(40, 40, 189, .5) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(40, 40, 189, .3) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
   }
 
   input:invalid {
@@ -51,15 +51,19 @@
 
   #generate {
     padding: 8px 16px;
+    font-family: 'Open Sans', sans-serif;
+    border: 1px solid black;
+    background-color: white;
     margin-top: 24px;
     font-weight: bold;
-    border: none;
+    width: 100%;
+    height: 32px;
     border-radius: 3px;
   }
 
   #generate:hover {
     padding: 8px 16px;
-    background-color: rgba(247, 0, 152, .5);
+    background-color: #A6D9BD;
   }
 
   #cancel {
@@ -83,19 +87,16 @@
     />
   </svg>
   </div> -->
-  <h3 style="color:black; font-family: sans-serif">Squiggle Generator</h3>
-  <br>
   <form>
-    <label>COUNT:</label>
-    <input type="number" class="variables" id="count" value="5" min="1" max="1000" placeholder="Required: 1-1000"
+    <label>Count:</label>
+    <input type=" number" class="variables" id="count" value="5" min="1" max="1000" placeholder="Required: 1-1000"
       required>
     <br>
-    <label>COMPLEXITY: </label>
+    <label>Complexity: </label>
     <input type="number" class="variables" id="complexity" value="5" min="1" max="1000" placeholder="Required: 1-1000"
       required>
   </form>
-  <button id="generate" style="color:black; font-family: sans-serif">Generate</button>
-  <button id="cancel" style="color:black; font-family: sans-serif">Cancel</button>
+  <button id="generate">Generate</button>
 </div>
 
 
