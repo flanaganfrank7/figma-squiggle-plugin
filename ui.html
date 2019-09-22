@@ -1,8 +1,9 @@
 <head>
+  <!-- Call the Open Sans font into the modal -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
 </head>
 
-<!-- HTML for the Plugin Modal  -->
+<!-- CSS for the Plugin Modal  -->
 <style>
   body {
     font-family: 'Open Sans', sans-serif;
@@ -11,18 +12,14 @@
   .main {
     width: 90%;
     margin: 0 auto;
-  }
-
-  h3 {
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
+    padding: 12px;
   }
 
   label {
     font-family: 'Open Sans', sans-serif;
     letter-spacing: .5px;
     display: block;
-    margin: 12px 0px;
+    margin: 0px 0px 8px 0px;
     font-size: 10px;
 
   }
@@ -52,7 +49,7 @@
   #generate {
     padding: 8px 16px;
     font-family: 'Open Sans', sans-serif;
-    border: 1px solid black;
+    border: 1px solid rgba(40, 40, 189, .5);
     background-color: white;
     margin-top: 24px;
     font-weight: bold;
@@ -63,75 +60,68 @@
 
   #generate:hover {
     padding: 8px 16px;
-    background-color: #A6D9BD;
-  }
-
-  #cancel {
-    margin-left: 12px;
-    background-color: #fff;
+    background-color: rgba(40, 40, 189, .5);
+    color: white;
     border: none;
   }
-
-  #cancel:hover {
-    border-bottom: 1px solid rgba(247, 0, 152, 1);
-  }
 </style>
+
+<!-- HTML for the Plugin Modal  -->
 <div class="main">
-  <!-- <div class="icon">
-    <svg viewBox="0 0 2000 1700" className="icon" fill="none">
-    <path
-      d="M710 173.5c-204.5-255.5-556.3-77-507 213C237 586.5 676.639 642 748.51 868c186.994 588-575.505 784-694.997 307C7.005 800 553.886 608.3 799.5 1545.5"
-      stroke="red"
-      stroke-width=100
-      stroke-linecap="round"
-    />
-  </svg>
-  </div> -->
   <form>
+    <!-- Required Input - Number of Squiggles to Generate (Number between 1 and 500) -->
     <label>Count:</label>
-    <input type=" number" class="variables" id="count" value="5" min="1" max="1000" placeholder="Required: 1-1000"
+    <input type=" number" class="variables" id="count" value="5" min="1" max="500" placeholder="Required: 1-500"
       required>
     <br>
+    <!-- Required Input - Number of Sets of Coords to Generate per Squiggle (Number between 1 and 500) -->
     <label>Complexity: </label>
-    <input type="number" class="variables" id="complexity" value="5" min="1" max="1000" placeholder="Required: 1-1000"
+    <input type="number" class="variables" id="complexity" value="5" min="1" max="500" placeholder="Required: 1-500"
       required>
   </form>
+  <!-- Generate Squiggles -->
   <button id="generate">Generate</button>
 </div>
 
-
-
+<!-- Javascript for handling click event and form eval -->
 <script>
 
-  // Click event for "Create"
+  // Click event for "Generate"
   document.getElementById('generate').onclick = () => {
+
+    // Grab the count and complexity input fields
     const textbox = document.getElementById('count');
     const compli = document.getElementById('complexity');
 
-    // Above we select all of the variables, below we parse them
+    // Parse the count and complexity input values
     const count = parseInt(textbox.value, 10);
     const comp = parseInt(compli.value);
 
     // Send message to code.js that we want to create squiggles
-    // Send variables across to code js for count, color, and multiplier
-    if (count > 0 && count <= 1000) {
-      alert('count is sufficient')
-      if (comp > 0 && comp <= 1000) {
-        alert('comp is sufficient as well')
+
+
+
+    if (count > 0 && count <= 500) {
+      if (comp > 0 && comp <= 500) {
+        // If both count and complexity are between 0 and 500 send a message to code.ts to create squiggles
+        // Send Count and Comp values along with the message
         parent.postMessage({ pluginMessage: { type: 'create-squiggles', count, comp } }, '*')
       }
       else {
-        alert('Complexity must be a number between 1 and 1000.')
+        // If complexity is greater than 500, or less than 1, reject
+        alert('Complexity must be a number between 1 and 500.')
       }
     }
     else {
-      alert('Count must be a number between 1 and 1000.')
+      // If count is greater than 500, or less than 1, reject
+      alert('Count must be a number between 1 and 500.')
     }
   }
 
+  // Removing Cancel button and Cancel event because I have the "X" in the top right
   // Click event for cancel
-  document.getElementById('cancel').onclick = () => {
-    parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-  }
+  // document.getElementById('cancel').onclick = () => {
+  //   parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+  // }
 
 </script>
