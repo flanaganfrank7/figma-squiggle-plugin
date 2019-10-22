@@ -7,7 +7,11 @@
 <style>
   body {
     font-family: 'Open Sans', sans-serif;
+    background-color: #F6f6f6;
+    margin: 0;
   }
+
+
 
   .main {
     width: 90%;
@@ -26,7 +30,6 @@
 
   .variables {
     background-color: #E3E3E8;
-    border-radius: 3px;
     width: 100%;
     margin: 0;
     padding: 8px 16px;
@@ -50,7 +53,7 @@
     padding: 8px 16px;
     font-family: 'Open Sans', sans-serif;
     border: 1px solid rgba(40, 40, 189, .5);
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0);
     margin-top: 24px;
     font-weight: bold;
     width: 100%;
@@ -64,20 +67,53 @@
     color: white;
     border: none;
   }
+
+  #preview {
+    width: 100%;
+    height: 200px;
+    background-color: white;
+    margin-bottom: 16px;
+  }
+
+  #previewLabel {
+    font-size: 12px;
+    position: absolute;
+    z-index: 50;
+    top: 160px;
+    left: 130px;
+    color: rgb(161, 161, 179);
+    /* margin: 0 auto; */
+
+  }
+
+  svg {
+    width: 220px;
+    height: 120px;
+    padding: 40px;
+    ;
+  }
 </style>
 
 <!-- HTML for the Plugin Modal  -->
+<div id='preview'>
+  <p id="previewLabel">Sample</p>
+  <svg viewbox="100 100 800 1000">
+    <path id="previewPath" d="" stroke="blue" stroke-width="2" fill="none" />
+  </svg>
+</div>
 <div class="main">
+
   <form>
-    <!-- Required Input - Number of Squiggles to Generate (Number between 1 and 500) -->
-    <label>Count:</label>
-    <input type=" number" class="variables" id="count" value="5" min="1" max="500" placeholder="Required: 1-500"
-      required>
-    <br>
     <!-- Required Input - Number of Sets of Coords to Generate per Squiggle (Number between 1 and 500) -->
     <label>Complexity: </label>
-    <input type="number" class="variables" id="complexity" value="5" min="1" max="500" placeholder="Required: 1-500"
+    <input type="number" class="variables" id="complexity" value="5" min="1" max="500" step='0'
+      placeholder="Required: 1-500" required>
+    <br>
+    <!-- Required Input - Number of Squiggles to Generate (Number between 1 and 500) -->
+    <label>Count:</label>
+    <input type="number" class="variables" id="count" value="5" min="1" max="500" placeholder="Required: 1-500"
       required>
+
   </form>
   <!-- Generate Squiggles -->
   <button id="generate">Generate</button>
@@ -86,7 +122,54 @@
 <!-- Javascript for handling click event and form eval -->
 <script>
 
-  // Click event for "Generate"
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // Function for generating previews
+  var initialSquiggle = function (initialComplexity) {
+    const compli = initialComplexity;
+    let array = [];
+    let multValue = 1000;
+    array.push("M");
+    for (let m = 0; m < 2; m++) {
+      let rando = Math.random() * multValue;
+      array.push(rando);
+    }
+    for (let x = 0; x < compli; x++) {
+      array.push("C");
+      for (let c = 0; c < 6; c++) {
+        let rando = Math.random() * multValue;
+        array.push(rando);
+
+      }
+    }
+    let joinArray = array.join(" ");
+    console.log(joinArray)
+    document.getElementById('previewPath').setAttribute("d", joinArray)
+  }
+
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // Initial call for "Sample Squiggle"
+  initialSquiggle(5)
+
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // Change event for "Sample Squiggle"
+  document.getElementById('complexity').addEventListener("change", function () {
+    const compli = document.getElementById('complexity');
+    const comp = parseInt(compli.value);
+    if (comp > 0 && comp <= 500) {
+      initialSquiggle(comp)
+    }
+    else {
+      alert('Complexity must be a number between 1 and 500.')
+    }
+  })
+
+
+  /////////////////////////////////////////
+  /////////////////////////////////////////
+  // Click event for "Generating Squiggles"
   document.getElementById('generate').onclick = () => {
 
     // Grab the count and complexity input fields
@@ -98,8 +181,6 @@
     const comp = parseInt(compli.value);
 
     // Send message to code.js that we want to create squiggles
-
-
 
     if (count > 0 && count <= 500) {
       if (comp > 0 && comp <= 500) {

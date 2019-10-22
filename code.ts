@@ -1,13 +1,13 @@
 // Show the UI modal on running the plugin
 figma.showUI(__html__);
 // Resize the modal to 300x240
-figma.ui.resize(300, 240);
+figma.ui.resize(300, 450);
 
 // Interpret the message that we're sending over from the click event in the UI
 figma.ui.onmessage = msg => {
 
+    ///////
     // If the message is 'create-squiggle' then run the squiggle building
-    // Leaving this as a conditional becuase I plan to add other message types in the future
     if (msg.type === "create-squiggles") {
         const nodes = [];
 
@@ -44,6 +44,7 @@ figma.ui.onmessage = msg => {
 
             // joinArray brings all of the coordinates together, removing commas and adding a space between index values
             let joinArray = array.join(" ");
+            console.log(joinArray)
             // strinArray turns joinArray into a string
             let stringArray = joinArray.toString();
             // ---------------------
@@ -51,7 +52,7 @@ figma.ui.onmessage = msg => {
             // ---------------------
             const vector = figma.createVector();
             // This spaces the created squiggles out across the y-axis
-            vector.y = i * 300;
+            vector.y = i * 500;
             // Set random opacity per squiggle
             vector.opacity = Math.random();
             // Set the default stroke color
@@ -72,7 +73,8 @@ figma.ui.onmessage = msg => {
         figma.currentPage.selection = nodes;
         // Fit the viewport to include the select (ie the Squiggles)
         figma.viewport.scrollAndZoomIntoView(nodes);
+        figma.closePlugin();
     }
     // Close the plugin
-    figma.closePlugin();
+
 };
